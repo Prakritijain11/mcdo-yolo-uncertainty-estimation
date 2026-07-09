@@ -12,6 +12,14 @@ datasets/
 slurm-*.out
 validation_terminal_output*.txt
 
+# Large training outputs (kept locally, too big for GitHub's 100 MB limit)
+results/Train/yolo-output-19may
+results/Train/yolo-output-17may
+results/Train/test-video.mp4
+results/Train/runs/detect/train-New/predictions.json
+results/Train/runs/detect/train-Old/predictions.json
+*.mp4
+
 # Python
 __pycache__/
 *.pyc
