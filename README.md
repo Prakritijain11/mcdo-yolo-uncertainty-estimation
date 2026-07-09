@@ -4,7 +4,7 @@ Master's thesis project (Universität Heidelberg) evaluating how image corruptio
 
 ## Motivation
 
-Object detection models like YOLOv8 perform well on clean benchmark data, but real-world deployments face corrupted or degraded inputs — sensor noise, motion blur, fog, snow, compression artifacts. This project quantifies how much performance degrades under 19 types of corruption at 5 severity levels, and tests whether Monte Carlo Dropout can give a reliable signal of *when the model is uncertain* — which matters for safety-critical applications like autonomous driving.
+Object detection models like YOLOv8 perform well on clean benchmark data, but real-world deployments face corrupted or degraded inputs - sensor noise, motion blur, fog, snow, compression artifacts. This project quantifies how much performance degrades under 19 types of corruption at 5 severity levels, and tests whether Monte Carlo Dropout can give a reliable signal of *when the model is uncertain* - which matters for safety-critical applications like autonomous driving.
 
 ## Approach
 
@@ -19,18 +19,18 @@ flowchart LR
     F --> G[Analysis & visualization]
 ```
 
-1. **Corruption generation** — 19 corruption types (noise: Gaussian, shot, impulse, speckle; blur: Gaussian, motion, zoom, glass, defocus; weather: fog, frost, snow; digital: JPEG compression, brightness, contrast, saturate, pixelate, spatter, elastic transform), each at 5 severity levels, applied to the MS-COCO validation set using the [`imagecorruptions`](https://github.com/bethgelab/imagecorruptions) package (Michaelis et al., 2019).
-2. **Baseline evaluation** — YOLOv8 evaluated on clean vs. corrupted images, tracking mAP, confidence scores, and bounding box counts.
-3. **Monte Carlo Dropout** — dropout layers inserted into YOLOv8's convolutional blocks and kept active at inference time (instead of only during training). Running multiple stochastic forward passes on the same image gives a distribution over predictions; the variance of that distribution is the uncertainty estimate.
-4. **Uncertainty quantification** — evaluated at three dropout rates (0.1, 0.5, 0.7) and measured with a variance-based metric and Probabilistic Detection Quality (PDQ).
+1. **Corruption generation** - 19 corruption types (noise: Gaussian, shot, impulse, speckle; blur: Gaussian, motion, zoom, glass, defocus; weather: fog, frost, snow; digital: JPEG compression, brightness, contrast, saturate, pixelate, spatter, elastic transform), each at 5 severity levels, applied to the MS-COCO validation set using the [`imagecorruptions`](https://github.com/bethgelab/imagecorruptions) package (Michaelis et al., 2019).
+2. **Baseline evaluation** - YOLOv8 evaluated on clean vs. corrupted images, tracking mAP, confidence scores, and bounding box counts.
+3. **Monte Carlo Dropout** - dropout layers inserted into YOLOv8's convolutional blocks and kept active at inference time (instead of only during training). Running multiple stochastic forward passes on the same image gives a distribution over predictions; the variance of that distribution is the uncertainty estimate.
+4. **Uncertainty quantification** - evaluated at three dropout rates (0.1, 0.5, 0.7) and measured with a variance-based metric and Probabilistic Detection Quality (PDQ).
 
 ## Key findings
 
-- **Baseline degradation**: model performance consistently drops as corruption severity increases — e.g. mAP fell from 0.311 to 0.030 and confidence scores from 0.576 to 0.453 under severe contrast corruption; bounding box detections dropped from 20,319 to 1,533.
+- **Baseline degradation**: model performance consistently drops as corruption severity increases - e.g. mAP fell from 0.311 to 0.030 and confidence scores from 0.576 to 0.453 under severe contrast corruption; bounding box detections dropped from 20,319 to 1,533.
 - **Dropout rate trade-off**:
-  - **0.1** — stable predictions, but limited sensitivity as an uncertainty signal.
-  - **0.5** — the best balance between maintaining detection performance and producing a useful uncertainty estimate.
-  - **0.7** — noticeably reduced detection accuracy at high corruption severities.
+  - **0.1** - stable predictions, but limited sensitivity as an uncertainty signal.
+  - **0.5** - the best balance between maintaining detection performance and producing a useful uncertainty estimate.
+  - **0.7** - noticeably reduced detection accuracy at high corruption severities.
 - Noise and blur corruptions caused the steepest performance degradation among the 19 types tested.
 
 See `results/plots/` for the full set of charts (model performance by corruption type/severity, confidence score curves, correlation analysis) and `results/data/` for the underlying CSVs.
@@ -113,7 +113,7 @@ python src/evaluation/validation_mcdo.py
 python src/visualization/plot_severities.py
 ```
 
-> **Note on model weights**: trained model checkpoints (`.pt` files) are not included in this repo due to size — they're excluded via `.gitignore`. Available on request.
+> **Note on model weights**: trained model checkpoints (`.pt` files) are not included in this repo due to size - they're excluded via `.gitignore`. Available on request.
 
 ## Tech stack
 
@@ -128,5 +128,5 @@ Corruption functions built on the [`imagecorruptions`](https://github.com/bethge
 
 ## Author
 
-**Prakriti Jain** — M.Sc. Data and Computer Science, Universität Heidelberg
+**Prakriti Jain** - M.Sc. Data and Computer Science, Universität Heidelberg
 [LinkedIn](https://www.linkedin.com/in/prakriti-jain-184636161/) · prakriti.ps.jain@gmail.com
