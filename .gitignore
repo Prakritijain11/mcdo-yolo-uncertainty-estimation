@@ -1,0 +1,27 @@
+# Model weights (too large for git; host externally and link in README)
+*.pt
+*.pth
+*.onnx
+
+# Datasets
+datasets/
+*.zip
+
+# Logs and large raw outputs
+*.log
+slurm-*.out
+validation_terminal_output*.txt
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

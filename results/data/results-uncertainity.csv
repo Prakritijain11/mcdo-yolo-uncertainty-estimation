@@ -1,0 +1,26 @@
+Corruption Type,Severity,Total Bounding Boxes,Average Confidence Score,mAP@0.5:0.95
+contrast,severity_1,293,0.6113,0.540727911
+contrast,severity_5,129,0.515,0.225892157
+contrast,severity_2,273,0.6155,0.515135341
+contrast,severity_3,253,0.61,0.480539169
+contrast,severity_4,190,0.5865,0.349186346
+frost,severity_5,216,0.5799,0.324333809
+frost,severity_2,262,0.6026,0.473470299
+frost,severity_1,289,0.615,0.495293342
+frost,severity_4,238,0.5868,0.407027356
+frost,severity_3,249,0.5833,0.388039246
+snow,severity_5,223,0.5591,0.338587446
+snow,severity_4,201,0.5752,0.316802741
+snow,severity_3,230,0.5776,0.388916228
+snow,severity_1,261,0.6029,0.444130121
+snow,severity_2,236,0.5798,0.412415411
+brightness,severity_5,282,0.6105,0.502410829
+brightness,severity_4,287,0.6202,0.530365236
+brightness,severity_3,306,0.6159,0.550369971
+brightness,severity_1,317,0.623,0.575720392
+brightness,severity_2,316,0.6102,0.560409787
+fog,severity_1,291,0.609,0.523246515
+fog,severity_5,264,0.5913,0.483326985
+fog,severity_2,276,0.6128,0.498610408
+fog,severity_3,273,0.6121,0.517965962
+fog,severity_4,269,0.6109,0.501791916

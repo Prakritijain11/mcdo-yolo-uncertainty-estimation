@@ -1,0 +1,51 @@
+# Custom YOLOv8 with MCDO (Monte Carlo Dropout) for Conv layers
+
+# Parameters
+nc: 80
+depth_multiple: 0.33  
+width_multiple: 0.25
+dropout_rate: 0.7  
+
+# YOLOv8.0n backbone with MCDO
+backbone:
+  # [from, repeats, module, args]
+  - [-1, 1, ConvMCDO, [64, 3, 2, 0.5]]  # 0-P1/2
+  - [-1, 1, ConvMCDO, [128, 3, 2, 0.5]]  # 1-P2/4
+  - [-1, 3, C2f, [128, True]]
+  - [-1, 1, ConvMCDO, [256, 3, 2, 0.5]]  # 3-P3/8
+  - [-1, 6, C2f, [256, True]]
+  - [-1, 1, ConvMCDO, [512, 3, 2, 0.5]]  # 5-P4/16
+  - [-1, 6, C2f, [512, True]]
+  - [-1, 1, ConvMCDO, [1024, 3, 2, 0.5]]  # 7-P5/32
+  - [-1, 3, C2f, [1024, True]]
+  - [-1, 1, SPPF, [1024, 5]]  # 9
+
+# YOLOv8.0n head with MCDO
+head:
+  - [-1, 1, nn.Upsample, [None, 2, 'nearest']]
+  - [[-1, 6], 1, Concat, [1]]  # cat backbone P4
+  - [-1, 3, C2f, [512]]  # 13
+
+  - [-1, 1, nn.Upsample, [None, 2, 'nearest']]
+  - [[-1, 4], 1, Concat, [1]]  # cat backbone P3
+  - [-1, 3, C2f, [256]]  # 17 (P3/8-small)
+
+  - [-1, 1, ConvMCDO, [256, 3, 2, 0.5]]
+  - [[-1, 12], 1, Concat, [1]]  # cat head P4
+  - [-1, 3, C2f, [512]]  # 20 (P4/16-medium)
+
+  - [-1, 1, ConvMCDO, [512, 3, 2, 0.5]]
+  - [[-1, 9], 1, Concat, [1]]  # cat head P5
+  - [-1, 3, C2f, [1024]]  # 23 (P5/32-large)
+
+  - [[15, 18, 21], 1, Detect, [nc]]  # Detect(P3, P4, P5)
+
+custom_modules:
+  ConvMCDO:
+    # Define Conv with Dropout (Monte Carlo Dropout)
+    class: ConvMCDO
+    args:
+      ch_out: 64
+      kernel_size: 3
+      stride: 2
+      dropout_rate: 0.7
